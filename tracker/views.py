@@ -1,10 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import Paginator
+from django.conf import settings
 from tracker.models import Transaction
 from tracker.filters import TransactionFilter
 from tracker.forms import TransactionForm
 from django_htmx.http import retarget
+from tracker.charting import plot_income_expenses_bar_chart, plot_category_pie_chart
+from tracker.resources import TransactionResource
+from django.http import HttpResponse
+
 
 # Create your views here.
 def index(request):
@@ -17,9 +23,13 @@ def transactions_list(request):
         request.GET,
         queryset=Transaction.objects.filter(user=request.user).select_related('category')
     )
+    paginator = Paginator(transaction_filter.qs, settings.PAGE_SIZE)
+    transaction_page = paginator.page(1) # default to 1 when this view is triggered
+
     total_income = transaction_filter.qs.get_total_income()
     total_expenses = transaction_filter.qs.get_total_expenses()
     context = {
+        'transactions': transaction_page,
         'filter': transaction_filter,
         'total_income': total_income,
         'total_expenses': total_expenses,
@@ -82,3 +92,62 @@ def delete_transaction(request, pk):
         'message': f"Transaction of {transaction.amount} on {transaction.date} was deleted successfully!"
     }
     return render(request, 'tracker/partials/transaction-success.html', context)
+
+@login_required
+def get_transactions(request):
+    page = request.GET.get('page', 1)  # ?page=2
+    transaction_filter = TransactionFilter(
+        request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related('category')
+    )
+    paginator = Paginator(transaction_filter.qs, settings.PAGE_SIZE)
+    context = {
+        'transactions': paginator.page(page)
+    }
+    return render(
+        request,
+        'tracker/partials/transactions-container.html#transaction_list',
+        context
+    )
+
+
+def transaction_charts(request):
+    transaction_filter = TransactionFilter(
+        request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related('category')
+    )
+    income_expense_bar = plot_income_expenses_bar_chart(transaction_filter.qs)
+
+    category_income_pie = plot_category_pie_chart(
+        transaction_filter.qs.filter(type='income')
+    )
+    category_expense_pie = plot_category_pie_chart(
+        transaction_filter.qs.filter(type='expense')
+    )
+
+    context = {
+        'filter': transaction_filter,
+        'income_expense_barchart': income_expense_bar.to_html(),
+        'category_income_pie': category_income_pie.to_html(),
+        'category_expense_pie': category_expense_pie.to_html(),
+    }
+    if request.htmx:
+        return render(request, 'tracker/partials/charts-container.html', context)
+    return render(request, 'tracker/charts.html', context)
+
+
+
+@login_required
+def export(request):
+    if request.htmx:
+        return HttpResponse(headers={'HX-Redirect': request.get_full_path()})
+    
+    transaction_filter = TransactionFilter(
+        request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related('category')
+    )
+
+    data = TransactionResource().export(transaction_filter.qs)
+    response = HttpResponse(data.csv)
+    response['Content-Disposition'] = 'attachment; filename="transactions.csv"'
+    return response
