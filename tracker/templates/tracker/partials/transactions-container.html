@@ -9,12 +9,12 @@
     <!-- 3/4 cols for the table of transactions -->
     <div class="col-span-3">
         <div class="my-4">
-            <h1 class="mt-4 mb-4 prose prose-2xl text-white">
+            <h1 class="mt-4 mb-4 prose prose-2xl text-black">
               Totals
             </h1>
 
             <table class="table">
-                <thead class="text-xs text-white uppercase">
+                <thead class="text-xs text-black uppercase">
                     <tr>
                         <th>Total Income</th>
                         <th>Total Expenses</th>
@@ -35,7 +35,7 @@
 
         <div class="flex justify-between items-center mt-4 mb-6">
               
-            <h1 class="mt-8 mb-4 prose prose-2xl text-white">
+            <h1 class="mt-8 mb-4 prose prose-2xl text-black">
                 Transactions
             </h1>
             
@@ -55,13 +55,20 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                       </svg>                      
                 </a>
+
+                <a class="cursor-pointer" hx-get="{% url 'import' %}" hx-push-url="true" hx-target="#transaction-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 ml-2 cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                      </svg>
+                                    
+                </a>
             </div>
         </div>
 
         {% if transactions %}
 
         <table class="table">
-            <thead class="text-xs text-white uppercase">
+            <thead class="text-xs text-black uppercase">
                 <tr>
                     <th class="px-6 py-3">Date</th>
                     <th class="px-6 py-3">Category</th>
@@ -117,7 +124,7 @@
 
         {% else %}
 
-        <p class="text-2xl text-white">
+        <p class="text-2xl text-black">
             No transactions found
         </p>
 
@@ -132,17 +139,17 @@
             id="filterform">
             
             <div class="mb-2 form-control">
-                {{ filter.form.transaction_type|add_label_class:"label text-white" }}
+                {{ filter.form.transaction_type|add_label_class:"label text-black" }}
                 {% render_field filter.form.transaction_type class="select bg-gray-50 text-gray-900" %}
             </div>
 
             <div class="mb-2 form-control">
-                {{ filter.form.start_date|add_label_class:"label text-white" }}
+                {{ filter.form.start_date|add_label_class:"label text-black" }}
                 {% render_field filter.form.start_date class="input bg-gray-50 text-gray-900" %}
             </div>
             
             <div class="mb-2 form-control">
-                {{ filter.form.end_date|add_label_class:"label text-white" }}
+                {{ filter.form.end_date|add_label_class:"label text-black" }}
                 {% render_field filter.form.end_date class="input bg-gray-50 text-gray-900" %}
             </div>   
 

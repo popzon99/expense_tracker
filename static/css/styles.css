@@ -1,9 +1,65 @@
+/* For the body */
 body {
-    background-image: linear-gradient(to right top, #212f45, #1b3a50, #104458, #054f5e, #065a60);
-    min-height: 100vh;
+    background-color: white; /* Set background color to white */
+    color: black;            /* Set text color to black */
+    min-height: 100vh;       /* Ensure full viewport height */
 }
 
+/* For the navigation bar */
 nav {
-    color: white;
-    background-color: #182c34;
+    color: black;            /* Set navigation text color to black */
+    background-color: white; /* Set navigation background color to white */
+    border-bottom: 1px solid #ccc; /* Optional: Add a subtle border for separation */
+}
+
+/* Optional: For buttons or links (if needed) */
+a {
+    color: black; /* Set link color to black */
+    text-decoration: none; /* Remove underline */
+}
+
+a:hover {
+    color: #0056b3; /* Optional: Change link color on hover */
+    text-decoration: underline; /* Optional: Add underline on hover */
+}
+
+/* General table styles for contrast */
+table {
+    background-color: white; /* Table background */
+    color: black;            /* Text color */
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ccc; /* Light border for cells */
+    padding: 8px;           /* Padding inside cells */
+    text-align: left;
+}
+
+thead {
+    background-color: #f5f5f5; /* Light gray for the table header */
+    color: black;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Subtle zebra striping */
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Button styles */
+button {
+    background-color: #007bff; /* Blue button background */
+    color: white;              /* Button text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
 }

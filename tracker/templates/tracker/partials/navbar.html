@@ -5,7 +5,7 @@
         <span>
             <img class="w-10 h-10 mr-2" src="{% static 'images/money-with-wings.svg' %}" />
         </span>
-        <span class="self-center text-2xl font-semibold whitespace-nowrap">Finance Tracker</span>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap">Expense Tracker</span>
       </a>
       <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
         <span class="sr-only">Open main menu</span>
@@ -17,21 +17,21 @@
         {% if user.is_authenticated %}
             <li>
                 <a href="{% url 'transactions-list' %}" 
-                    class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                    class="block py-2 pl-3 pr-4 text-black rounded md:p-0" 
                     aria-current="page">
                         My Transactions
                 </a>
             </li>
             <li>
                 <a href="{% url 'transactions-charts' %}" 
-                    class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                    class="block py-2 pl-3 pr-4 text-black rounded md:p-0" 
                     aria-current="page">
                         My Charts
                 </a>
             </li>
             <li>
                 <a href="{% url 'account_logout' %}" 
-                    class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                    class="block py-2 pl-3 pr-4 text-black rounded md:p-0" 
                     aria-current="page">
                         Logout
                 </a>
@@ -39,14 +39,14 @@
         {% else %}
             <li>
                 <a href="{% url 'account_login' %}" 
-                    class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                    class="block py-2 pl-3 pr-4 text-black rounded md:p-0" 
                     aria-current="page">
                         Login
                 </a>
             </li>
             <li>
                 <a href="{% url 'account_signup' %}" 
-                    class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                    class="block py-2 pl-3 pr-4 text-black rounded md:p-0" 
                     aria-current="page">
                         Sign Up
                 </a>
